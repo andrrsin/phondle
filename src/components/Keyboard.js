@@ -1,10 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Key from './Key';
+import { AppContext } from '../App';
 function Keyboard() {
-    const keys1 = ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"];
-    const keys2 = ["A", "S", "D", "F", "G", "H", "J", "K", "L"];
-    const keys3 = ["Z", "X", "C", "V", "B", "N", "M"];
-
+    let keys1 = ["ɑ", "a", "æ", "ɐ", "ə", "e", "ɛ", "i", "ɪ", "ɔ","ʊ","u","ʌ"]; 
+    const keys2 = ["ː","b", "d", "f", "ɡ", "h", "j", "ʒ", "k", "l","m","n","ŋ"];
+    const keys3 = ["p", "r", "s", "ʃ", "t", "θ", "ð","v","w","z"];
+    const {longChar} = useContext(AppContext);
+    if(longChar){
+        keys1 = ["ɑː", "a", "æ", "ɐ", "ɜː", "e", "ɛ", "iː", "ɪː", "ɔː","ʊ","uː","ʌ"]; 
+    }else{
+       keys1 = ["ɑ", "a", "æ", "ɐ", "ə", "e", "ɛ", "i", "ɪ", "ɔ","ʊ","u","ʌ"]; 
+    }
     return (
         <div className='keyboard'>
             <div className='line1'>{keys1.map((key) => { return <Key keyVal={key} /> })}</div>
