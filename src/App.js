@@ -1,27 +1,57 @@
 import './App.css';
 import Keyboard from './components/Keyboard';
 import Board from './components/Board';
-import { createContext, useState } from "react";
-import { boardDefault } from './Words';
+import { createContext, useEffect, useState } from "react";
+import { boardDefault, generateWordSet } from './Words';
+import { ipaanswers, ipadict } from './Data';
+import GameOver from './components/GameOver';
+
 export const AppContext = createContext();
 
 function App() {
   const [board, setBoard] = useState(boardDefault);
   const [currAttempt, setCurrAttempt] = useState({ attempt: 0, letterPos: 0 });
   const [longChar, setLongChar] = useState(false);
-  let correctWord = "buːmɪŋ";
+  const [disabledLetters, setDisabledLetters] = useState([]);
+  const [correctLetters, setCorrectLetters] = useState([]);
+  const [almostLetters, setAlmostLetters] = useState([]);
+  const [gameOver, setGameOver] = useState({ gameOver: false, win: false });
+  
+  // let correctWord = "buːmɪŋ"; //DEV MODE
+  function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
+  
+  const [correctWord, setCorrectWord] = useState(ipaanswers[getRandomInt(ipaanswers.length)]);
+  console.log(correctWord);
   let index = -1;
-  let newWord = ["","","","",""]; 
-  if(correctWord.includes("ː")){
+  const [wordSet, setWordSet] = useState(new Set());
+
+  let newWord = ["", "", "", "", ""];
+
+  useEffect(() => {
+    generateWordSet().then((words) =>{ 
+      setWordSet(words.wordSet);
+
+    });
+
+  }, [setWordSet])
+
+  if (correctWord.includes("ː")) {
     index = correctWord.indexOf("ː");
+
+    for (let i = 0; i < index - 1; i++)
+      newWord[i] = correctWord.charAt(i);
+    newWord[index - 1] = correctWord.charAt(index - 1) + "ː";
+    for (let i = index; i < correctWord.length - 1; i++)
+      newWord[i] = correctWord.charAt(i + 1);
     
-    for(let i = 0;i < index-1;i++)
-      newWord[i]=correctWord.charAt(i);
-    newWord[index-1] = correctWord.charAt(index-1)+"ː";
-    for(let i = index;i < correctWord.length-1;i++)
-      newWord[i]=correctWord.charAt(i+1);
-    correctWord = newWord;
-}
+  } 
+  else {
+    let newWord = correctWord.split('');
+    
+  }
+  setCorrectWord(newWord);
 
   return (
     <div className="App">
@@ -35,11 +65,21 @@ function App() {
         setCurrAttempt,
         longChar,
         setLongChar,
-        correctWord
+        correctWord,
+        wordSet,
+        correctWord,
+        disabledLetters,
+        setDisabledLetters,
+        correctLetters,
+        setCorrectLetters,
+        almostLetters,
+        setAlmostLetters,
+        gameOver,
+        setGameOver
       }}>
         <div className='game'>
           <Board />
-          <Keyboard />
+          {gameOver.gameOver?<GameOver/>:<Keyboard />}
         </div>
       </AppContext.Provider>
     </div>

@@ -1,3 +1,4 @@
+import {ipaanswers} from "./Data";
 export const boardDefault = [
       ["", "", "", "", ""]
     , ["", "", "", "", ""]
@@ -7,6 +8,10 @@ export const boardDefault = [
     , ["", "", "", "", ""]
 ];
 
-const generateWordSet = ()=>{
-  const newSet = new Set();
+export const generateWordSet = async ()=>{
+  let wordSet = new Set(ipaanswers);
+  return {wordSet};
 }
+
+
+
