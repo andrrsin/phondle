@@ -3,7 +3,7 @@ import Keyboard from './components/Keyboard';
 import Board from './components/Board';
 import { createContext, useEffect, useState } from "react";
 import { boardDefault, generateWordSet } from './Words';
-import { ipaanswers, ipadict } from './Data';
+import { ipaanswers } from './Data';
 import GameOver from './components/GameOver';
 
 export const AppContext = createContext();
@@ -21,37 +21,45 @@ function App() {
   function getRandomInt(max) {
     return Math.floor(Math.random() * max);
   }
+  function getRandomWord() {
+    let ans = ipaanswers[getRandomInt(ipaanswers.length)];
+    console.log(ans);
+    let index = -1;
+    let newWord = ["", "", "", "", ""];
+    if (ans.includes("ː")) {
+      index = ans.indexOf("ː");
   
-  const [correctWord, setCorrectWord] = useState(ipaanswers[getRandomInt(ipaanswers.length)]);
+      for (let i = 0; i < index - 1; i++)
+        newWord[i] = ans.charAt(i);
+      newWord[index - 1] = ans.charAt(index - 1) + "ː";
+      for (let i = index; i < ans.length - 1; i++)
+        newWord[i] = ans.charAt(i + 1);
+      
+    } 
+    else {
+      newWord = ans.split("");
+      
+    }
+    console.log(newWord);
+    return newWord;
+  }
+  const [correctWord, setCorrectWord] = useState("");
   console.log(correctWord);
-  let index = -1;
+ 
   const [wordSet, setWordSet] = useState(new Set());
 
-  let newWord = ["", "", "", "", ""];
+ 
 
   useEffect(() => {
     generateWordSet().then((words) =>{ 
       setWordSet(words.wordSet);
-
+      setCorrectWord(getRandomWord());
     });
 
   }, [setWordSet])
 
-  if (correctWord.includes("ː")) {
-    index = correctWord.indexOf("ː");
+  
 
-    for (let i = 0; i < index - 1; i++)
-      newWord[i] = correctWord.charAt(i);
-    newWord[index - 1] = correctWord.charAt(index - 1) + "ː";
-    for (let i = index; i < correctWord.length - 1; i++)
-      newWord[i] = correctWord.charAt(i + 1);
-    
-  } 
-  else {
-    let newWord = correctWord.split('');
-    
-  }
-  setCorrectWord(newWord);
 
   return (
     <div className="App">

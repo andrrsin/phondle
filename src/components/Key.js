@@ -18,6 +18,8 @@ function Key({ keyVal, bigKey,state}) {
       if (wordSet.has(currWord)) {
         setCurrAttempt({ attempt: currAttempt.attempt + 1, letterPos: 0 });
         
+      }else{
+        return;
       }
       
       if(currWord === correctWord.join("")){
