@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/phondle/static/css/main.b8487265.css",
-    "main.js": "/phondle/static/js/main.9c0d4296.js",
+    "main.js": "/phondle/static/js/main.a2081381.js",
     "static/js/592.1c7bc03a.chunk.js": "/phondle/static/js/592.1c7bc03a.chunk.js",
     "index.html": "/phondle/index.html",
     "main.b8487265.css.map": "/phondle/static/css/main.b8487265.css.map",
-    "main.9c0d4296.js.map": "/phondle/static/js/main.9c0d4296.js.map",
+    "main.a2081381.js.map": "/phondle/static/js/main.a2081381.js.map",
     "592.1c7bc03a.chunk.js.map": "/phondle/static/js/592.1c7bc03a.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b8487265.css",
-    "static/js/main.9c0d4296.js"
+    "static/js/main.a2081381.js"
   ]
 }
